@@ -1,0 +1,41 @@
+ #include <sstream>
+ #include <iostream>
+ 
+ using namespace std;
+ 
+stringstream ss;
+template<class T>
+T input() {
+	string s;
+	T tmp;
+	if(ss >> tmp) {
+		return tmp;
+	}else {
+		getline(cin, s);
+		for(unsigned int i = 0; i < s.length(); i++) {
+			if(s[i] == ',')
+				s[i] = ' ';
+		}
+		ss.clear();
+		ss << s;
+		ss >> tmp;
+		return tmp;
+	}
+}
+
+int main() {
+	//if input is like this...
+	//"123,Tony,K,3.14"
+	//that function can handle this kind of input~
+	
+	int i = input<int>();
+	string str = input<string>();
+	char c = input<char>();
+	double d = input<double>();
+	
+	printf("%d\n", i);
+	printf("%s\n", str.c_str());
+	printf("%c\n", c);
+	printf("%f\n", d);
+	return 0;
+}
