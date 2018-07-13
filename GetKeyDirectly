@@ -1,0 +1,77 @@
+#include <stdio.h>
+#include <windows.h>
+#include <string>
+
+struct keys
+{
+	bool before;
+	bool now; 	
+}up, down, left, right, enter;
+
+class keyboard_ctrl
+{
+	public :
+		
+		void getkey( int which )
+		{
+			if( which )
+			{
+				up.before = up.now;
+				down.before = down.now;
+				left.before = left.now;
+				right.before = right.now;
+				enter.before = enter.now;
+			}
+			else
+			{
+				up.now = GetAsyncKeyState( VK_UP );
+				down.now = GetAsyncKeyState( VK_DOWN );
+				left.now = GetAsyncKeyState( VK_LEFT );
+				right.now = GetAsyncKeyState( VK_RIGHT );
+				enter.now = GetAsyncKeyState( VK_RETURN );		
+			}
+		}
+		
+		bool isPress( keys key )
+		{
+			return key.now && !key.before;
+		}
+		
+		bool isRelease( keys key )
+		{
+			return !key.now && key.before;
+		}
+};
+
+int main( void )
+{   
+	keyboard_ctrl keyboard;
+	while ( true )     
+	{
+		keyboard.getkey( 0 );
+		
+		if( keyboard.isPress( up ))
+		{
+			printf("up is pressed\n");
+		}
+		if( keyboard.isPress( down ))
+		{
+			printf("down is pressed\n");
+		}
+		if( keyboard.isPress( left ))
+		{
+			printf("left is pressed\n");
+		}
+		if( keyboard.isPress( right ))
+		{
+			printf("right is pressed\n");
+		}
+		if( keyboard.isPress( enter ))
+		{
+			printf("enter is pressed\n");
+		}
+		
+		keyboard.getkey( 1 );
+	}
+	return 0;
+}
